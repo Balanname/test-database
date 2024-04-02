@@ -20,8 +20,7 @@ struct Database {
 
 	int size;
 	int arrays;
-	Entry** entries; //임시 수정
-	int* data = new int[arrays];
+	Entry** data = new Entry*[arrays];
 
 
 	// Entry 동적배열 필드를 갖고 add, get 등을 통해 조작할수있어야한다.
@@ -117,8 +116,8 @@ Entry* create(Type type, string key, void* value) {
 Entry* get(Database& database, std::string& key) {
 
 	for (int i = 0; i < database.size; ++i) {
-		if (database.entries[i]->key == key) {
-			return database.entries[i];
+		if (database.data[i]->key == key) {
+			return database.data[i];
 		}
 	}
 	
@@ -128,6 +127,8 @@ Entry* get(Database& database, std::string& key) {
 void add(Database& database, Entry* entry) {
 
 	
+
+	database.data[database.size++] = entry;
 
 }
 
@@ -145,7 +146,7 @@ void init(Database& database) {
 
 	delete[] &database.arrays;
 
-	database.data = new int[database.arrays];
+	database.data = new Entry*[database.arrays];
 }
 
 int main() {
